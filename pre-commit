@@ -3,7 +3,7 @@
 mix=$(git diff --name-only --cached | grep -e "^.*.js$" -e "^resources")
 if [[ -n "$mix" ]]
 then
-	yarn production
+	npm run production
 	git add public/mix-manifest.json
 	git add public/css/*
 	git add public/js/*
