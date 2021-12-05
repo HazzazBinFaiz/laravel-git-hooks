@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if [ -n $(pwd | grep .git) ]
+then
+	cd ..
+fi
+
+
+if [ -z $(php -v) ]
+then
+	echo 'php not found'
+	exit 1
+fi
+
+if [ ! -f artisan ]
+then
+	echo 'artisan not found'
+    exit 1
+fi
+
+php artisan down
+
+if [ -n $(git diff --name-only HEAD HEAD~1 | grep composer) ]
+then
+	composer install -o --no-dev --no-interaction
+fi
+
+php artisan optimize
+php artisan up
