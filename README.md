@@ -9,7 +9,7 @@ This pre-commit hook will look for any file change in resource directory and run
 To set up this hook, enter command bellow in terminal
 
 ```sh
-curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/pre-commit >> .git/hooks/pre-commit
+curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/pre-commit > .git/hooks/pre-commit
 ```
 
 ### Set up post-update hook for server side
@@ -20,5 +20,5 @@ and it will optimize laravel app by running php artisan optimize.
 To set up this hook, enter command bellow in terminal
 
 ```sh
-curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-update >> .git/hooks/post-update
+curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-update > .git/hooks/post-update
 ```
