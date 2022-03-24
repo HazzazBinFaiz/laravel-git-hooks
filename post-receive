@@ -1,9 +1,30 @@
 #!/bin/sh
 
+
+#BRANCH="main" 
+
+
+DIFF=""
+while read oldrev newrev refname
+do
+    branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+    if [ -z "$BRANCH" ]
+    then
+        DIFF="$DIFF `git diff --name-only $oldrev $newrev`"
+    else
+        if [ "$BRANCH" == "$branch" ]
+        then
+            DIFF="$DIFF `git diff --name-only $oldrev $newrev`"
+        fi
+    fi
+done
+
+
 while [ "$(pwd | grep .git)" != "" ]
 do
 	cd ..
 done
+
 
 if [ -z $(command -v php) ]
 then
@@ -17,14 +38,16 @@ then
     exit 1
 fi
 
+
 php artisan down
 
-if [ "$(git diff --name-only $new $old | grep composer)" != "" ]
+
+if [ "$(echo $DIFF | grep composer)" != "" ]
 then
 	composer install -o --no-dev --no-interaction
 fi
 
-if [ "$(git diff --name-only $new $old | grep migration)" != "" ]
+if [ "$(echo $DIFF | grep migration)" != "" ]
 then
 	php artisan migrate
 fi
