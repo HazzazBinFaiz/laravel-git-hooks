@@ -49,7 +49,7 @@ fi
 
 if [ "$(echo $DIFF | grep migration)" != "" ]
 then
-	php artisan migrate
+	php artisan migrate --force
 fi
 
 php artisan optimize
