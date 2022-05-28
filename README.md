@@ -22,3 +22,10 @@ To set up this hook, enter command bellow in terminal
 ```sh
 curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive > .git/hooks/post-receive
 ```
+
+### Initial setup (not hook)
+This is not a hook setup, just a helpful script to setup laravel app
+
+```sh
+curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/initial_setup.sh | bash
+```
