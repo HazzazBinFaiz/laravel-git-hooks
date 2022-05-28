@@ -4,7 +4,7 @@ set -e
 
 read -r -p "Setup app (Y/N) : " SETUP
 if [ "$SETUP" != 'Y' ]; then
-    exit 1
+    exit 0
 fi
 
 read -r -p "App name : " APP_NAME
@@ -40,5 +40,3 @@ php artisan storage:link
 php artisan migrate --force --seed
 php artisan optimize
 php artisan up
-
-rm -- "$0"
