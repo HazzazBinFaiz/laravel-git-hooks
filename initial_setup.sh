@@ -28,8 +28,11 @@ sed -i "s/DB_DATABASE=.*/DB_DATABASE=\"$DB_DATABASE\"/" $FILE_NAME
 sed -i "s/DB_USERNAME=.*/DB_USERNAME=\"$DB_USERNAME\"/" $FILE_NAME
 sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=\"$DB_PASSWORD\"/" $FILE_NAME
 
-curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive >.git/hooks/post-receive
 
+read -r -p "Install Deploy on push hook (Y/N) : " HOOK
+if [ "$HOOK" != 'Y' ]; then
+    curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive >.git/hooks/post-receive
+fi
 
 composer install -o --no-dev
 php artisan key:generate
