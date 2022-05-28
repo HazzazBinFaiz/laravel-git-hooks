@@ -8,9 +8,9 @@ if [ "$SETUP" != 'Y' ]; then
 fi
 
 read -r -p "App name : " APP_NAME
-read -r -p "App ENV : " APP_ENV
-read -r -p "App Debug : " APP_DEBUG
-read -r -p "App URL : " APP_URL
+read -r -p "App ENV (local/production/..): " APP_ENV
+read -r -p "App Debug (true/false): " APP_DEBUG
+read -r -p "App URL (https://...com): " APP_URL
 APP_URL="${APP_URL//\//\\/}"
 read -r -p "DB_DATABASE : " DB_DATABASE
 read -r -p "DB_USERNAME : " DB_USERNAME
