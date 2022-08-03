@@ -20,7 +20,7 @@ do
 done
 
 
-while [ "$(pwd | grep .git)" != "" ]
+while [ "$(pwd | grep \\.git)" != "" ]
 do
 	cd ..
 done
