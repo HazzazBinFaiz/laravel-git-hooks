@@ -3,6 +3,11 @@
 
 #BRANCH="main" 
 
+# Put absolute php path to use 
+PHP=php
+
+# Put composer command to use if use different composer than default
+COMPOSER=$(which composer)
 
 DIFF=""
 while read oldrev newrev refname
@@ -25,8 +30,7 @@ do
 	cd ..
 done
 
-
-if [ -z $(command -v php) ]
+if [ -z $(command -v $PHP) ]
 then
 	echo 'php not found'
 	exit 1
@@ -39,18 +43,18 @@ then
 fi
 
 
-php artisan down
+$PHP artisan down
 
 
 if [ "$(echo $DIFF | grep composer)" != "" ]
 then
-	composer install -o --no-dev --no-interaction
+	$COMPOSER install -o --no-dev --no-interaction
 fi
 
 if [ "$(echo $DIFF | grep migration)" != "" ]
 then
-	php artisan migrate --force
+	$PHP artisan migrate --force
 fi
 
-php artisan optimize
-php artisan up
+$PHP artisan optimize
+$PHP artisan up
