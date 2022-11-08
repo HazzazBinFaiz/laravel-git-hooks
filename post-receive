@@ -24,6 +24,10 @@ do
     fi
 done
 
+if [ "$(git submodule)" != "" ]
+then
+	git submodule update --remote
+fi
 
 while [ "$(pwd | grep \\.git)" != "" ]
 do
