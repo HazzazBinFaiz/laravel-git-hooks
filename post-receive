@@ -49,7 +49,7 @@ $PHP artisan down
 
 if [ "$(echo $DIFF | grep composer)" != "" ]
 then
-	$COMPOSER install -o --no-dev --no-interaction
+	$PHP $COMPOSER install -o --no-dev --no-interaction
 fi
 
 if [ "$(echo $DIFF | grep migration)" != "" ]
