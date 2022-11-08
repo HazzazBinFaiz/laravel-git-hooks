@@ -29,10 +29,7 @@ then
 	git submodule update --remote
 fi
 
-while [ "$(pwd | grep \\.git)" != "" ]
-do
-	cd ..
-done
+cd $GIT_DIR/..
 
 if [ -z $(command -v $PHP) ]
 then
