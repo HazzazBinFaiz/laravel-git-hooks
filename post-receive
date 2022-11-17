@@ -26,7 +26,7 @@ done
 
 if [ "$(git submodule)" != "" ]
 then
-	git submodule update --remote
+	git submodule update --remote --init
 fi
 
 cd $GIT_DIR/..
