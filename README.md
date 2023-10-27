@@ -1,4 +1,4 @@
-# laravel-git-hooks
+# Laravel it hooks
 Git hooks to improve laravel development and deployment process
 
 
