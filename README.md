@@ -17,6 +17,14 @@ In order to update package and optimize laravel app, post-receive hook can be us
 This post-receive hook will look for any change in file named composer and install new packages
 and it will optimize laravel app by running php artisan optimize.
 
+To set up shared hook, enter command bellow in terminal
+
+**Warning: Use with your own risk**
+
+```sh
+curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive-shared > .git/hooks/post-receive
+```
+
 To set up this hook, enter command bellow in terminal
 
 ```sh

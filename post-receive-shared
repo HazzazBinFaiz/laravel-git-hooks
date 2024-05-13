@@ -1,0 +1,88 @@
+#!/bin/sh
+
+
+#BRANCH="main" 
+
+# Put absolute php path to use 
+PHP=php
+
+# Put composer command to use if use different composer than default
+COMPOSER=$(which composer)
+
+BASE_CACHE_DIR="$HOME/.vendors"
+
+DIFF=""
+while read oldrev newrev refname
+do
+    branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+    if [ -z "$BRANCH" ]
+    then
+        DIFF="$DIFF `git diff --name-only $oldrev $newrev`"
+    else
+        if [ "$BRANCH" == "$branch" ]
+        then
+            DIFF="$DIFF `git diff --name-only $oldrev $newrev`"
+        fi
+    fi
+done
+
+if [ "$(git submodule)" != "" ]
+then
+	git submodule update --remote --init
+fi
+
+cd $GIT_DIR/..
+
+if [ -z $(command -v $PHP) ]
+then
+	echo 'php not found'
+	exit 1
+fi
+
+if [ ! -f artisan ]
+then
+	echo 'artisan not found'
+    exit 1
+fi
+
+
+$PHP artisan down
+
+
+if [ "$(echo $DIFF | grep composer)" != "" ]
+then
+    HASH=$(md5sum composer.lock | cut -d' ' -f1)
+
+    if [ ! -d "$BASE_CACHE_DIR/$HASH" ]; then
+        mkdir -p "$BASE_CACHE_DIR/$HASH"
+    fi
+
+    if [ ! -e "./vendor" ]; then
+        ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+    else
+        if [ -L "./vendor" ]; then
+        current_target=$(readlink -f ./vendor)
+        if [ "$current_target" != "$BASE_CACHE_DIR/$HASH" ]; then
+            rm ./vendor
+            ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+        else
+            exit 0
+        fi
+        elif [ -d "./vendor" ]; then
+        rm -rf ./vendor
+        ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+        fi
+    fi
+
+    if [ ! "$(ls -A "$BASE_CACHE_DIR/$HASH")" ]; then
+        $PHP $COMPOSER install -o --no-dev --no-interaction
+    fi
+fi
+
+if [ "$(echo $DIFF | grep migration)" != "" ]
+then
+	$PHP artisan migrate --force
+fi
+
+$PHP artisan optimize
+$PHP artisan up
