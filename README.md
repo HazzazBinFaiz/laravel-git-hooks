@@ -47,5 +47,5 @@ export PHP=/usr/local/bin/other-php && /bin/bash -c "$(curl -fsSL https://raw.gi
 ### Customize composer for setup 
 
 ```sh
-export COMPOSER=/usr/local/bin/composer && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/initial_setup.sh)"
+export COMPOSER_BIN=/usr/local/bin/composer && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/initial_setup.sh)"
 ```
