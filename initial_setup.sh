@@ -2,6 +2,9 @@
 
 set -e
 
+PHP=${PHP:-php}
+COMPOSER=${COMPOSER:-$(which composer)}
+
 read -r -p "Setup app (Y/N) : " SETUP
 if [ "$SETUP" != 'Y' ]; then
     exit 0
@@ -38,9 +41,9 @@ elif [ "$HOOK" = 'S' ]; then
     chmod +x .git/hooks/post-receive
 fi
 
-composer install -o --no-dev
-php artisan key:generate
-php artisan storage:link
-php artisan migrate --force --seed
-php artisan optimize
-php artisan up
+$PHP $COMPOSER install -o --no-dev
+$PHP artisan key:generate
+$PHP artisan storage:link
+$PHP artisan migrate --force --seed
+$PHP artisan optimize
+$PHP artisan up
