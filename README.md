@@ -9,7 +9,7 @@ This pre-commit hook will look for any file change in resource directory and run
 To set up this hook, enter command bellow in terminal
 
 ```sh
-curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/pre-commit > .git/hooks/pre-commit
+curl -fsSL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/pre-commit > .git/hooks/pre-commit
 ```
 
 ## Set up post-receive hook for server side
@@ -22,13 +22,13 @@ To set up shared hook, enter command bellow in terminal
 **Warning: Use with your own risk**
 
 ```sh
-curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive-shared > .git/hooks/post-receive
+curl -fsSL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive-shared > .git/hooks/post-receive
 ```
 
 To set up this hook, enter command bellow in terminal
 
 ```sh
-curl https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive > .git/hooks/post-receive
+curl -fsSL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive > .git/hooks/post-receive
 ```
 
 ## Initial setup (not hook)
