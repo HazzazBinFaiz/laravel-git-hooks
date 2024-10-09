@@ -46,6 +46,29 @@ elif [ "$HOOK" = 'y' ]; then
 elif [ "$HOOK" = 'S' ]; then
     curl -fsL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive-shared >.git/hooks/post-receive
     chmod +x .git/hooks/post-receive
+
+    BASE_CACHE_DIR="$HOME/.vendors"
+
+    HASH=$(md5sum composer.lock | cut -d' ' -f1)
+
+    if [ ! -d "$BASE_CACHE_DIR/$HASH" ]; then
+        mkdir -p "$BASE_CACHE_DIR/$HASH"
+    fi
+
+    if [ ! -e "./vendor" ]; then
+        ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+    else
+        if [ -L "./vendor" ]; then
+            current_target=$(readlink -f ./vendor)
+            if [ "$current_target" != "$BASE_CACHE_DIR/$HASH" ]; then
+                rm ./vendor
+                ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+            fi
+        elif [ -d "./vendor" ]; then
+            rm -rf ./vendor
+            ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+        fi
+    fi
 fi
 
 $PHP $COMPOSER_BIN install -o --no-dev
