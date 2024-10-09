@@ -45,39 +45,35 @@ then
     exit 1
 fi
 
+if [ -e "./vendor" ]; then
+    $PHP artisan down
+fi
 
-$PHP artisan down
+HASH=$(md5sum composer.lock | cut -d' ' -f1)
 
+if [ ! -d "$BASE_CACHE_DIR/$HASH" ]; then
+    mkdir -p "$BASE_CACHE_DIR/$HASH"
+fi
 
-if [ "$(echo $DIFF | grep composer)" != "" ]
-then
-    HASH=$(md5sum composer.lock | cut -d' ' -f1)
-
-    if [ ! -d "$BASE_CACHE_DIR/$HASH" ]; then
-        mkdir -p "$BASE_CACHE_DIR/$HASH"
-    fi
-
-    if [ ! -e "./vendor" ]; then
-        ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
-    else
-        if [ -L "./vendor" ]; then
+if [ ! -e "./vendor" ]; then
+    ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
+else
+    if [ -L "./vendor" ]; then
         current_target=$(readlink -f ./vendor)
         if [ "$current_target" != "$BASE_CACHE_DIR/$HASH" ]; then
             rm ./vendor
             ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
-        else
-	    $PHP $COMPOSER dump-autoload -o --no-dev --no-interaction
-            exit 0
         fi
-        elif [ -d "./vendor" ]; then
+    elif [ -d "./vendor" ]; then
         rm -rf ./vendor
         ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
-        fi
     fi
+fi
 
-    if [ ! "$(ls -A "$BASE_CACHE_DIR/$HASH")" ]; then
-        $PHP $COMPOSER install -o --no-dev --no-interaction
-    fi
+if [ ! "$(ls -A "$BASE_CACHE_DIR/$HASH")" ]; then
+    $PHP $COMPOSER install -o --no-dev --no-interaction
+else
+    $PHP $COMPOSER dump-autoload -o --no-dev --no-interaction
 fi
 
 if [ "$(echo $DIFF | grep migration)" != "" ]
