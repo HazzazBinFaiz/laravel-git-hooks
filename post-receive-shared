@@ -66,6 +66,7 @@ then
             rm ./vendor
             ln -s "$BASE_CACHE_DIR/$HASH" ./vendor
         else
+	    $PHP $COMPOSER dump-autoload -o --no-dev --no-interaction
             exit 0
         fi
         elif [ -d "./vendor" ]; then
