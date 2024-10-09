@@ -18,6 +18,7 @@ APP_URL="${APP_URL//\//\\/}"
 read -r -p "DB_CONNECTION (default: mysql) : " DB_CONNECTION
 DB_CONNECTION=${DB_CONNECTION:-mysql}
 read -r -p "DB_DATABASE : " DB_DATABASE
+DB_DATABASE="${DB_DATABASE//\//\\/}"
 read -r -p "DB_USERNAME : " DB_USERNAME
 read -r -p "DB_PASSWORD : " DB_PASSWORD
 
