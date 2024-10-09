@@ -15,6 +15,8 @@ read -r -p "App ENV (local/production/..): " APP_ENV
 read -r -p "App Debug (true/false): " APP_DEBUG
 read -r -p "App URL (https://...com): " APP_URL
 APP_URL="${APP_URL//\//\\/}"
+read -r -p "DB_CONNECTION (default: mysql) : " DB_CONNECTION
+DB_CONNECTION=${DB_CONNECTION:-mysql}
 read -r -p "DB_DATABASE : " DB_DATABASE
 read -r -p "DB_USERNAME : " DB_USERNAME
 read -r -p "DB_PASSWORD : " DB_PASSWORD
@@ -27,9 +29,10 @@ sed -i "s/APP_NAME=.*/APP_NAME=\"$APP_NAME\"/" $FILE_NAME
 sed -i "s/APP_ENV=.*/APP_ENV=$APP_ENV/" $FILE_NAME
 sed -i "s/APP_DEBUG=.*/APP_DEBUG=$APP_DEBUG/" $FILE_NAME
 sed -i "s/APP_URL=.*/APP_URL=\"$APP_URL\"/" $FILE_NAME
-sed -i "s/DB_DATABASE=.*/DB_DATABASE=\"$DB_DATABASE\"/" $FILE_NAME
-sed -i "s/DB_USERNAME=.*/DB_USERNAME=\"$DB_USERNAME\"/" $FILE_NAME
-sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=\"$DB_PASSWORD\"/" $FILE_NAME
+sed -i "s/DB_CONNECTION=.*/DB_CONNECTION=\"$DB_CONNECTION\"/" $FILE_NAME
+sed -i "s/#*\s*DB_DATABASE=.*/DB_DATABASE=\"$DB_DATABASE\"/" $FILE_NAME
+sed -i "s/#*\s*DB_USERNAME=.*/DB_USERNAME=\"$DB_USERNAME\"/" $FILE_NAME
+sed -i "s/#*\s*DB_PASSWORD=.*/DB_PASSWORD=\"$DB_PASSWORD\"/" $FILE_NAME
 
 
 read -r -p "Install Deploy on push hook (Y/S/N) : " HOOK
