@@ -192,6 +192,8 @@ Use the hook setup script to configure your application (follow the interactive 
 
 ## Set Up SSL
 
+> Before setting up SSL, ensure your DNS records are properly configured and have successfully propagated. You can verify this by checking your domain’s A and AAAA (for ipv6) records point to your server’s IP address.
+
 To set up SSL, run:
 
 ```sh
