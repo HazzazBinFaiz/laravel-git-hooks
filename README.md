@@ -31,6 +31,9 @@ To set up this hook, enter command bellow in terminal
 curl -fsSL https://raw.githubusercontent.com/HazzazBinFaiz/laravel-git-hooks/main/post-receive > .git/hooks/post-receive
 ```
 
+# NEW : Set UP fresh VPS with deployment hook [here](vps.md)
+
+
 ## Initial setup (not hook)
 This is not a hook setup, just a helpful script to setup laravel app
 
